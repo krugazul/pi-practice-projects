@@ -3,13 +3,20 @@ from time import sleep
 
 class Segment():
     letterTime = 1
-    pins = []
-    letterMatrix = {
-        'a':[0,0,0,1,0,0,0,1],
+    inputPins = []
+    charMatrix = {
+        'A':[0,0,0,1,0,0,0,1],
+        'a':[0,0,0,0,0,1,0,1],
+        'B':[0,0,0,0,0,0,0,1],
         'b':[1,1,0,0,0,0,0,1],
-        'c':[0,1,1,0,0,0,1,1]
-    }
-    numberMatrix = {
+        'C':[0,1,1,0,0,0,1,1],
+        'c':[1,1,1,0,0,1,0,1],
+        'D':[0,0,0,0,0,0,1,1],
+        'd':[1,0,0,0,0,1,0,1],
+        'E':[0,1,1,0,0,0,0,1],
+        'e':[0,1,1,0,0,0,0,1],
+        'F':[0,1,1,1,0,0,0,1],
+        'f':[0,1,1,1,0,0,0,1],
         '0':[0,0,0,0,0,0,1,1],
         '1':[1,0,0,1,1,1,1,1],
         '2':[0,0,1,0,0,1,0,1],
@@ -20,9 +27,8 @@ class Segment():
         '7':[0,0,0,1,1,1,1,1],
         '8':[0,0,0,0,0,0,0,1],
         '9':[0,0,0,0,1,0,0,1],
-    }
-    charMatrix = {
-        '.':[1,1,1,1,1,1,1,0]
+        '.':[1,1,1,1,1,1,1,0],
+        '-':[1,1,1,1,1,1,0,1],
     }
 
     """
@@ -63,9 +69,9 @@ class Segment():
         which most users can ignore).
     """
 
-    def __init__(self,pins):
-        for pin in pins:
-            self.pins.append(DigitalOutputDevice(pin))
+    def __init__(self,inputPins):
+        for inputPin in inputPins:
+            self.inputPins.append(DigitalOutputDevice(inputPin))
 
     def setLetterTime(self,time):
         self.letterTime = time
@@ -74,19 +80,40 @@ class Segment():
         print(self.letterTime)
 
     def printPins(self):
-        print(self.pins)
+        print(self.inputPins)
 
     def display(self,char):
-        matrix = self.checkMatrix(char)
-        for count, pin in enumerate(matrix[char]):
-            if 0 == pin:
-                self.pins[count].off()
+        for count, value in enumerate(self.charMatrix[char]):
+            if 0 == value:
+                self.inputPins[count].off()
             else:
-                self.pins[count].on()
+                self.inputPins[count].on()
+        
         sleep(self.letterTime)
 
-    def checkMatrix(self,char):
-        matrix = self.letterMatrix
-        if char in ['0','1','2','3','4','5','6','7','8','9']: matrix = self.numberMatrix
-        if char in ['.']: matrix = self.charMatrix
-        return matrix
+    def selfTest(self):
+        self.setLetterTime(0.5)
+        self.display('A')
+        self.display('a')
+        self.display('B')
+        self.display('b')
+        self.display('C')
+        self.display('c')
+        self.display('D')
+        self.display('d')
+        self.display('E')
+        self.display('e')
+        self.display('F')
+        self.display('f')
+        self.display('-')
+        self.display('.')
+        self.display('0')
+        self.display('1')
+        self.display('2')
+        self.display('3')
+        self.display('4')
+        self.display('5')
+        self.display('6')
+        self.display('7')
+        self.display('8')
+        self.display('9')
