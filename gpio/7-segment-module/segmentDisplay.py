@@ -1,15 +1,10 @@
 from gpiozero import DigitalOutputDevice
+from time import sleep
 
 class Segment():
 
-    pinA = ''
-    pinB = ''
-    pinC = ''
-    pinD = ''
-    pinE = ''
-    pinF = ''
-    pinG = ''
-    pinH = ''
+    letterTime = 1
+    pins = {}
 
     """
     Extends :class:`DigitalOutputDevice` and represents a 7 segment display
@@ -50,47 +45,30 @@ class Segment():
     """
 
     def __init__(self,a,b,c,d,e,f,g,h):
-        self.pinA = DigitalOutputDevice(a)
-        self.pinB = DigitalOutputDevice(b)
-        self.pinC = DigitalOutputDevice(c)
-        self.pinD = DigitalOutputDevice(d)
-        self.pinE = DigitalOutputDevice(e)
-        self.pinF = DigitalOutputDevice(f)
-        self.pinG = DigitalOutputDevice(g)
-        self.pinH = DigitalOutputDevice(h)
+        self.pins['A'] = DigitalOutputDevice(a)
+        self.pins['B'] = DigitalOutputDevice(b)
+        self.pins['C'] = DigitalOutputDevice(c)
+        self.pins['D'] = DigitalOutputDevice(d)
+        self.pins['E'] = DigitalOutputDevice(e)
+        self.pins['F'] = DigitalOutputDevice(f)
+        self.pins['G'] = DigitalOutputDevice(g)
+        self.pins['H'] = DigitalOutputDevice(h)
+
+    def setLetterTime(self,time):
+        self.letterTime = time
 
     def display(self,letter):
         if 'a' == letter: self.A()
-        if 'b' == letter: self.B()
-        if 'c' == letter: self.C()
+
+        sleep(self.letterTime)
 
     def A(self):
-        self.pinA.off()
-        self.pinB.off()
-        self.pinC.off()
-        self.pinD.on()
-        self.pinE.off()
-        self.pinF.off()
-        self.pinG.off()
-        self.pinH.on()   
-
-    def B(self):
-        self.pinA.on()
-        self.pinB.on()
-        self.pinC.off()
-        self.pinD.off()
-        self.pinE.off()
-        self.pinF.off()
-        self.pinG.off()
-        self.pinH.on()
-
-    def C(self):
-        self.pinA.off()
-        self.pinB.on()
-        self.pinC.on()
-        self.pinD.off()
-        self.pinE.off()
-        self.pinF.off()
-        self.pinG.on()
-        self.pinH.on()
+        self.pins['A'].off()
+        self.pins['B'].off()
+        self.pins['C'].off()
+        self.pins['D'].on()
+        self.pins['E'].off()
+        self.pins['F'].off()
+        self.pins['G'].off()
+        self.pins['H'].on()
 
