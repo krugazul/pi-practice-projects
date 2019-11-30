@@ -59,7 +59,12 @@ class Segment():
         self.pinG = DigitalOutputDevice(g)
         self.pinH = DigitalOutputDevice(h)
 
-    def display(self):
+    def display(self,letter):
+        if 'a' == letter: self.A()
+        if 'b' == letter: self.B()
+        if 'c' == letter: self.C()
+
+    def A(self):
         self.pinA.off()
         self.pinB.off()
         self.pinC.off()
@@ -67,4 +72,25 @@ class Segment():
         self.pinE.off()
         self.pinF.off()
         self.pinG.off()
+        self.pinH.on()   
+
+    def B(self):
+        self.pinA.on()
+        self.pinB.on()
+        self.pinC.off()
+        self.pinD.off()
+        self.pinE.off()
+        self.pinF.off()
+        self.pinG.off()
         self.pinH.on()
+
+    def C(self):
+        self.pinA.off()
+        self.pinB.on()
+        self.pinC.on()
+        self.pinD.off()
+        self.pinE.off()
+        self.pinF.off()
+        self.pinG.on()
+        self.pinH.on()
+
