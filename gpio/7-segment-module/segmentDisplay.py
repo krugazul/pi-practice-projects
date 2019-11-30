@@ -9,6 +9,21 @@ class Segment():
         'b':[1,1,0,0,0,0,0,1],
         'c':[0,1,1,0,0,0,1,1]
     }
+    numberMatrix = {
+        '0':[0,0,0,0,0,0,1,1],
+        '1':[1,0,0,1,1,1,1,1],
+        '2':[0,0,1,0,0,1,0,1],
+        '3':[0,0,0,0,1,1,0,1],
+        '4':[1,0,0,1,1,0,0,1],
+        '5':[0,1,0,0,1,0,0,1],
+        '6':[0,1,0,0,0,0,0,1],
+        '7':[0,0,0,1,1,1,1,1],
+        '8':[0,0,0,0,0,0,0,1],
+        '9':[0,0,0,0,1,0,0,1],
+    }
+    charMatrix = {
+        '.':[1,1,1,1,1,1,1,0]
+    }
 
     """
     Extends :class:`DigitalOutputDevice` and represents a 7 segment display
@@ -61,11 +76,17 @@ class Segment():
     def printPins(self):
         print(self.pins)
 
-    def display(self,letter):
-        for count, pin in enumerate(self.letterMatrix[letter]):
+    def display(self,char):
+        matrix = self.checkMatrix(char)
+        for count, pin in enumerate(matrix[char]):
             if 0 == pin:
                 self.pins[count].off()
             else:
                 self.pins[count].on()
-
         sleep(self.letterTime)
+
+    def checkMatrix(self,char):
+        matrix = self.letterMatrix
+        if char in ['0','1','2','3','4','5','6','7','8','9']: matrix = self.numberMatrix
+        if char in ['.']: matrix = self.charMatrix
+        return matrix
