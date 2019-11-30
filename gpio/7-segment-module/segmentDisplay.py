@@ -2,9 +2,13 @@ from gpiozero import DigitalOutputDevice
 from time import sleep
 
 class Segment():
-
     letterTime = 1
-    pins = {}
+    pins = []
+    letterMatrix = {
+        'a':[0,0,0,1,0,0,0,1],
+        'b':[1,1,0,0,0,0,0,1],
+        'c':[0,1,1,0,0,0,1,1]
+    }
 
     """
     Extends :class:`DigitalOutputDevice` and represents a 7 segment display
@@ -44,31 +48,24 @@ class Segment():
         which most users can ignore).
     """
 
-    def __init__(self,a,b,c,d,e,f,g,h):
-        self.pins['A'] = DigitalOutputDevice(a)
-        self.pins['B'] = DigitalOutputDevice(b)
-        self.pins['C'] = DigitalOutputDevice(c)
-        self.pins['D'] = DigitalOutputDevice(d)
-        self.pins['E'] = DigitalOutputDevice(e)
-        self.pins['F'] = DigitalOutputDevice(f)
-        self.pins['G'] = DigitalOutputDevice(g)
-        self.pins['H'] = DigitalOutputDevice(h)
+    def __init__(self,pins):
+        for pin in pins:
+            self.pins.append(DigitalOutputDevice(pin))
 
     def setLetterTime(self,time):
         self.letterTime = time
 
+    def printLetterTime(self):
+        print(self.letterTime)
+
+    def printPins(self):
+        print(self.pins)
+
     def display(self,letter):
-        if 'a' == letter: self.A()
+        for count, pin in enumerate(self.letterMatrix[letter]):
+            if 0 == pin:
+                self.pins[count].off()
+            else:
+                self.pins[count].on()
 
         sleep(self.letterTime)
-
-    def A(self):
-        self.pins['A'].off()
-        self.pins['B'].off()
-        self.pins['C'].off()
-        self.pins['D'].on()
-        self.pins['E'].off()
-        self.pins['F'].off()
-        self.pins['G'].off()
-        self.pins['H'].on()
-
